@@ -7,16 +7,19 @@ const OpenAI = require("openai");
 
 config.config()
 
+let conversation = [{ role: "user", content: "Hello! What type of animal is your pet?"}];
+
 const openai = new OpenAI({
   apiKey: process.env.API_KEY
 })
 
-sendToOpenAI = async (text) => {
+sendToOpenAI = async () => {
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: text}]
+    messages: conversation
   });
-    
+
+  conversation.push({ role: "assistant", content: response.choices[0].message.content}); 
   return response.choices[0].message;
 }
 
@@ -25,7 +28,9 @@ app.use(cors({ origin: 'http://localhost:4200' }));
 
 app.post('/api/send-data', async (request, response) => {
   const dataFromFrontend = request.body.data;
-  const message = await sendToOpenAI(dataFromFrontend);
+  console.log("does any of it work...?");
+  conversation.push({ role: "user", content: dataFromFrontend })
+  const message = await sendToOpenAI();
   response.json({ message: message });
 });
 
