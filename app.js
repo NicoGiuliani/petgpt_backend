@@ -25,9 +25,7 @@ app.use(cors({ origin: 'http://localhost:4200' }));
 
 app.post('/api/send-data', async (request, response) => {
   const dataFromFrontend = request.body.data;
-  // console.log('Data received from frontend:', dataFromFrontend);
-  const message = await sendToOpenAI(dataFromFrontend); //keep turned off until testing
-  // console.log("message:", message);
+  const message = await sendToOpenAI(dataFromFrontend);
   response.json({ message: message });
 });
 
