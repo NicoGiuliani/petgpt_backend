@@ -7,7 +7,7 @@ const OpenAI = require("openai");
 
 config.config()
 
-let conversation = [{ role: "user", content: "Hello! What type of animal is your pet?"}];
+let conversation = [{"role": "system", "content": "Act as an educational assistant. If you are uncertain of the species the user provides, ask clarifying questions. After determining the species, ask the user if they have any questions regarding it, providing ideal care conditions for that animal in captivity."}, { role: "assistant", content: "Hello! What type of animal is your pet?"}];
 
 const openai = new OpenAI({
   apiKey: process.env.API_KEY
